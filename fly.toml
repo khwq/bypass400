@@ -1,8 +1,8 @@
-# Tên app (sẽ được tạo tự động trên Fly.io)
-app = "bypass-proxy" 
+# Tên app của bạn (Bạn cần điền chính xác tên app đã tạo trên Fly.io, ví dụ: bypass400)
+app = "bypass400" 
 
-# Vùng máy chủ (Region) - Amsterdam (ams)
-primary_region = "ams"
+# Vùng máy chủ (ams = Amsterdam, sin = Singapore - chọn 1 cái)
+primary_region = "sin"
 
 [build]
   # Chỉ định dùng Dockerfile để build
@@ -12,12 +12,20 @@ primary_region = "ams"
 [[services]]
   # Cổng nội bộ mà mitmproxy lắng nghe bên trong container
   internal_port = 8080
-  # Giao thức là TCP, vì đây là proxy chứ không phải web HTTP thông thường
+  # Giao thức là TCP vì đây là Proxy
   protocol = "tcp"
   
+  # Giữ máy chủ luôn chạy 24/7 (không tự động tắt khi không có traffic)
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
   # Cấu hình cổng hướng ra ngoài internet
   [[services.ports]]
-    # Cổng public mà khách hàng sẽ kết nối tới
     port = 8080
-    # Cần thiết lập handlers cho TCP proxy
-    handlers = ["tcp"]
+
+# Cấu hình tài nguyên máy ảo (Nên để 512MB để tránh lỗi OOM - Hết RAM)
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "512mb"
