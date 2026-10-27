@@ -1,0 +1,23 @@
+# Tên app (sẽ được tạo tự động trên Fly.io)
+app = "bypass-proxy" 
+
+# Vùng máy chủ (Region) - Amsterdam (ams)
+primary_region = "ams"
+
+[build]
+  # Chỉ định dùng Dockerfile để build
+  dockerfile = "Dockerfile"
+
+# Cấu hình cổng dịch vụ
+[[services]]
+  # Cổng nội bộ mà mitmproxy lắng nghe bên trong container
+  internal_port = 8080
+  # Giao thức là TCP, vì đây là proxy chứ không phải web HTTP thông thường
+  protocol = "tcp"
+  
+  # Cấu hình cổng hướng ra ngoài internet
+  [[services.ports]]
+    # Cổng public mà khách hàng sẽ kết nối tới
+    port = 8080
+    # Cần thiết lập handlers cho TCP proxy
+    handlers = ["tcp"]
