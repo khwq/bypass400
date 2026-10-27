@@ -10,6 +10,5 @@ COPY . /app
 # Cài đặt các thư viện từ requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Lệnh chạy tool khi container khởi động
-# Tool của bạn dùng mitmdump, trỏ tới file region_bypass.py và lắng nghe trên cổng 8080
-CMD ["mitmdump", "-s", "region_bypass.py", "--listen-host", "0.0.0.0", "-p", "8080"]
+# Lệnh chạy tool: Chạy file main.py để khởi động cả Bot và Proxy
+CMD ["python", "main.py"]
